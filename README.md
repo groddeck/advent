@@ -9,6 +9,10 @@ This project is meant to become a tool that can be used both to play a clone of 
 * A _lexicon_ is a collection of understood terms, which can mostly represent command verbs, but can also be other parts of speech, such as implicit nouns that are not defined as world-objects.
 * A _world_ is a collection of world-objects representing the current game-state in terms of the existing objects and the current values of their properties.
 
+## To run:
+
+ruby advent.rb
+
 ## TODO:
 
 * Create a lot more built-in objects, maybe as modules that other objects can include.
