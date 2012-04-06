@@ -2,20 +2,23 @@ require_relative 'command'
 
 class Prompt
 
-  def initialize
+  def initialize(game, world=[])
+    @game = game
+    @world = world
   end
   
   def prompt
-    print "Input text: "
+    print "\n>"
     input = gets.strip
     puts "You said: #{input}\n"
+    print "\n"
     command = parse input
     command.execute
     prompt
   end
 
   def parse(input)
-    Command.create(input.split, [], [])
+    Command.create(input.split, [], @game)
   end
 
 end

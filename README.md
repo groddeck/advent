@@ -18,4 +18,4 @@ ruby advent.rb
 * Create a lot more built-in objects, maybe as modules that other objects can include.
 * Create a lot more built-in verbs in the lexicon and create sensible default actions for verbs and objects.
 * Actually start to use some of the minimal infrastructure to create rooms and objects in the world.
-* Need some player-specific state capability, such as taking objects and adding them inventory.
+* Need some player-specific state capability, such as taking objects and adding them to inventory.
