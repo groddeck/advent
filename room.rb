@@ -4,6 +4,8 @@ require_relative 'container'
 class Room < WorldObject
   include Container
 
+  attr_accessor :exits
+
   #room desc
   #exits
   #open object with displayable stuff in the room
@@ -18,6 +20,14 @@ class Room < WorldObject
         print "#{obj.name} "
       end
       puts "here."
+    end
+  end
+
+  def exit(dir_symbol, room, rev_symbol=nil)
+    @exits = {} unless @exits
+    @exits[dir_symbol] = room
+    if(rev_symbol)
+      room.exit(rev_symbol, self)
     end
   end
 end

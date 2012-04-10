@@ -4,9 +4,13 @@ require_relative 'player'
 class Game
   attr_accessor :player, :world
   
-  def initialize
+  def initialize(start_room=nil)
     @world = World.new
     @player = Player.new(container: @world, name: 'self')
     @world.contents << @player
+  end
+
+  def current_room
+    @player.container
   end
 end

@@ -54,7 +54,8 @@ class Action
         begin
           if game.player.contents.include? dir_obj
             dir_obj.remove
-            game.player.container.contents << dir_obj
+            dir_obj.container = game.current_room
+            game.current_room.contents << dir_obj
           else
             puts "You don't have that"
           end
@@ -65,13 +66,25 @@ class Action
     },
     {
       'term' => 'take', 'proc' => Proc.new { |game, dir_obj|
-        puts "exec take verb: #{dir_obj.name}"
         begin
           dir_obj.take
+          dir_obj.container = game.player
           game.player.contents << dir_obj
         rescue Exception => e
           puts "You can't do that."
         end
+      }
+    },
+    {
+      'term' => 'go', 'proc' => Proc.new { |game, dir_obj|
+        # puts "game.room exits: #{game.current_room.exits}"
+        puts ">>> direction: #{dir_obj}"
+        target = game.current_room.exits[dir_obj.name.to_sym]
+        puts ">>> room that is #{dir_obj} of here: #{target}"
+        game.player.remove
+        target.contents << game.player
+        game.player.container = target
+        target.look
       }
     }
   ]
