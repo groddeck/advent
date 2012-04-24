@@ -34,12 +34,12 @@ class Action
     {
       'term' => 'look', 'proc' => Proc.new { |game, dir_obj| 
         # puts "Looking at #{dir_obj}"
-        puts ">>> game.player.container: #{game.player.container}"
+        # puts ">>> game.player.container: #{game.player.container}"
         dir_obj = game.player.container unless dir_obj
         begin
           dir_obj.look
         rescue Exception => e
-          puts "You don't see any such thing."
+          puts "You can't see any such thing."
         end
       }
     },
@@ -78,23 +78,59 @@ class Action
     {
       'term' => 'go', 'proc' => Proc.new { |game, dir_obj|
         # puts "game.room exits: #{game.current_room.exits}"
-        puts ">>> direction: #{dir_obj}"
-        target = game.current_room.exits[dir_obj.name.to_sym]
-        puts ">>> room that is #{dir_obj} of here: #{target}"
-        game.player.remove
-        target.contents << game.player
-        game.player.container = target
-        target.look
+        exit = game.current_room.exits[dir_obj.name.to_sym] if dir_obj
+        if exit
+          if exit && exit.obstruction
+            puts "Blocked by #{exit.obstruction}"
+          else
+            target = exit.room
+            puts ">>> room that is #{dir_obj} of here: #{target}"
+            game.player.remove
+            target.contents << game.player
+            game.player.container = target
+            target.look
+          end
+        else
+          puts "You can't go that way."
+        end
       }
     }
   ]
 
   def initialize(text, lexicon)
     lexicon += STD_LEXICON
+    directions =
+      [
+        ['north', 'n'], 
+        ['northeast', 'ne'], 
+        ['east', 'e'], 
+        ['southeast', 'se'], 
+        ['south', 's'], 
+        ['southwest', 'sw'], 
+        ['west', 'sw'], 
+        ['west', 'w'], 
+        ['northwest', 'nw'], 
+        ['up', 'u'], ['down', 'd']
+      ]
+    go_verb = (lexicon.select { |v| v['term'] == 'go' }).first
+    directions.each do |pair|
+      lexicon <<
+        {
+          'term' => pair[0], 'proc' => Proc.new{ |game|
+            go_verb['proc'].call game, WorldObject.new(name: pair[0])
+          }
+        }
+      lexicon <<
+        {
+          'term' => pair[1], 'proc' => Proc.new{ |game|
+            go_verb['proc'].call game, WorldObject.new(name: pair[0])
+          }
+        }
+    end
     # puts lexicon.inspect
     @corrupt = true
     @text = text
-    @verb = lexicon.select {|entry| entry['term'] == text}.first
+    @verb = lexicon.select {|entry| ([entry['term']]+[entry['synonyms']]).include? text}.first
     @corrupt = false if lexicon.map { |entry| entry['term'] }.include? text
   end
 

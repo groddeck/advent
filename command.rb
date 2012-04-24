@@ -5,6 +5,7 @@ class Command
 
   attr_accessor :action
   attr_accessor :direct_object
+  attr_accessor :adverb
   attr_accessor :world, :game
 
   def self.create(tokens, lexicon, game)
@@ -17,7 +18,7 @@ class Command
     world = command.world
     
     if object_name = tokens[1]
-      #when trying to match objects, search the room the player is in, and open containers in the room...
+      #when trying to match objects, search the room the player is in, and open containers in the room (player is a container too)...
       visible = []
       visible << game.current_room.contents
       visible.flatten!
@@ -40,13 +41,13 @@ class Command
           end
         end
       end
-      # puts ">>> object_name: [#{object_name}]"
-      # default_object = WorldObject.new(name: "Unmatched object called: [#{object_name}]") #hronir
-      # puts ">>> default_object: [#{default_object}], [#{default_object.name}]"
-      # puts ">>> world.select with name: [#{world.select {|o| o.name == object_name}}]"
-      # puts ">>> matched direct_object: [#{direct_object}]"
-      if %w(north south east west up down ne se sw nw).include? object_name
-        direct_object = WorldObject.new(name: object_name)
+      # Now look for other matching terms besides object names...
+      ## Directions
+      puts ">>> object_name: #{object_name}"
+      if %w(north south east west up down ne se sw nw n e s w u d).include? object_name
+        puts "... matched"
+        command.adverb = tokens[1]
+        direct_object = WorldObject.new(name: object_name) #this is a hack to handle words that are not nouns or verbs. Need adverbs and other p.o.s. in lexicon.
       end
       command.direct_object = direct_object
     end
@@ -55,7 +56,7 @@ class Command
 
   def execute
     # puts action
-    puts "running command - action: #{@action.text} #{@direct_object.name if @direct_object}"
+    # puts "running command - action: #{@action.text} #{@direct_object.name if @direct_object}"
     @action.perform @game, @direct_object
   end
 

@@ -11,11 +11,17 @@ class WorldObject
 
   def remove
     if @container
-      puts "Removing #{self.name} from container: #{container}"
-      puts "BEFORE: #{container.contents.size}"
+      # puts "Removing #{self.name} from container: #{container}"
+      # puts "BEFORE: #{container.contents.size}"
       self.container.contents.reject! {|obj| obj == self} if self.container
-      puts "AFTER: #{container.contents.size}"
+      # puts "AFTER: #{container.contents.size}"
     end
+  end
+
+  def move(target)
+    remove
+    self.container = target
+    target.contents << self
   end
 
   def look

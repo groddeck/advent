@@ -10,7 +10,6 @@ class Prompt
   def prompt
     print "\n>"
     input = gets.strip
-    puts "You said: #{input}\n"
     print "\n"
     command = parse input
     command.execute
