@@ -18,6 +18,17 @@ This project is meant to become a tool that can be used both to play a clone of 
 
 ruby advent.rb
 
+## To play:
+
+* Try typing common one or two word commands such as _look_, _look_ <object>, _take_ <object>
+* And try directions: north, south, east, west, up, down.
+
+## To create a game:
+
+* Subclass _Game_.
+* Create room objects and link them with the _exit_ function.
+* Create objects and place them into rooms.
+
 ## TODO:
 
 * Continue fleshing out the _Advent_ game world and then, as necessary...
@@ -25,3 +36,6 @@ ruby advent.rb
 * Create a lot more built-in verbs in the lexicon and create sensible default actions for verbs and objects.
 * More tests, including some transcripts of commands and expected output, making use of parameterized $stdin and $stdout.
 * More robust object interaction, including lamp-light, keys and locks, etc.
+* PARSER: better semantic net parsing to accept helper words (look _at_ obj instead of look obj, e.g.)
+* Allow multiple synonyms for objects and multi-word noun names.
+* Prompt for incomplete command info ("with what?")

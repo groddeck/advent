@@ -1,7 +1,4 @@
-require_relative 'prompt'
-require_relative 'vase'
 require_relative 'game'
-require_relative 'movable_object'
 
 class Advent < Game
   def start
@@ -45,10 +42,15 @@ class Advent < Game
     below = Room.new(
       short_description: 'Below the Grate',
       long_description: 'You are in a small chamber beneath a 3x3 steel grate to the surface. A low crawl over cobbles leads inward to the west.')
-    grate.blocked_exit(:down, below, :up, "grate")
-    ## Flotsam
-    flotsam = Room.new(short_description: '', long_description: '')
-    grate.exit(:east, flotsam, :west)
+    locked_grate = LockedDoor.new(name: "grate", key: keys)
+    grate.blocked_exit(:down, below, :up, locked_grate)
+    ## Cobbles
+    cobbles = Room.new(short_description: 'In Cobble Crawl',
+      long_description: 'You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.')
+    #      There is a small wicker cage discarded nearby.
+    below.exit(:west, cobbles, :east)
+    wicker_cage = MovableObject.new(name: 'cage', long_description: "It's a small wicker cage.")
+    wicker_cage.move(cobbles)
     ## Lots more
     ## ...
 

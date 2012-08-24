@@ -35,7 +35,11 @@ class Room < WorldObject
     @exits = {} unless @exits
     @exits[dir_symbol] = Exit.new(room, obstruction)
     if(rev_symbol)
-      room.exit(rev_symbol, self)
+      room.blocked_exit(rev_symbol, self, nil, obstruction)
     end
+  end
+
+  def exits
+    @exits || []
   end
 end

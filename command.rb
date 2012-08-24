@@ -49,6 +49,13 @@ class Command
         command.adverb = tokens[1]
         direct_object = WorldObject.new(name: object_name) #this is a hack to handle words that are not nouns or verbs. Need adverbs and other p.o.s. in lexicon.
       end
+      ## Doors
+      game.current_room.exits.each do |dir, x|
+        if x.obstruction && x.obstruction.name == object_name
+          direct_object = x.obstruction
+          break
+        end
+      end
       command.direct_object = direct_object
     end
     return command

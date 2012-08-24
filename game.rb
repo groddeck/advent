@@ -1,5 +1,9 @@
 require_relative 'world'
 require_relative 'player'
+require_relative 'prompt'
+require_relative 'vase'
+require_relative 'movable_object'
+require_relative 'locked_door'
 
 class Game
   attr_accessor :player, :world

@@ -46,7 +46,8 @@ class Action
     {
       'term' => 'inventory', 'proc' => Proc.new { |game, dir_obj|
         game.player.inventory
-      }
+      },
+      'synonyms' => 'i'
     },
     {
       'term' => 'drop', 'proc' => Proc.new { |game, dir_obj|
@@ -80,9 +81,7 @@ class Action
         # puts "game.room exits: #{game.current_room.exits}"
         exit = game.current_room.exits[dir_obj.name.to_sym] if dir_obj
         if exit
-          if exit && exit.obstruction
-            puts "Blocked by #{exit.obstruction}"
-          else
+          if !exit.obstruction || exit.obstruction.pass
             target = exit.room
             puts ">>> room that is #{dir_obj} of here: #{target}"
             game.player.remove
@@ -93,6 +92,11 @@ class Action
         else
           puts "You can't go that way."
         end
+      }
+    },
+    {
+      'term' => 'unlock', 'proc' => Proc.new { |game, dir_obj|
+        dir_obj.unlock
       }
     }
   ]
