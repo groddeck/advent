@@ -17,6 +17,11 @@ class Room < WorldObject
     puts "#{@long_description}"
     puts
     to_show = contents.reject{|o| o.name == 'self'}
+    room_descr_items = to_show.select{|o| o.room_description} #items that have a special room_description value, which is prose overriding 
+                                                               #the simple behavior of just listing the name of an item during room description.
+    room_descr_items.each do |item|
+      puts item.room_description
+    end
     if not to_show.empty?
       print "You can see "
       to_show.each do |obj|

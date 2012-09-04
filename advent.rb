@@ -53,6 +53,17 @@ class Advent < Game
     wicker_cage.move(cobbles)
     ## Lots more
     ## ...
+    ## Debris
+    debris = Room.new(short_description: 'In Debris Room',
+      long_description: 'You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west.'
+    )
+    cobbles.exit(:west, debris, :east)
+    # A note on the wall says, "Magic word XYZZY."
+    note = WorldObject.new(name: 'note', room_description: 'A note on the wall says, "Magic word XYZZY."', long_description: 'The note says "Magic word XYZZY".')
+    debris.contents << note
+    # A three foot black rod with a rusty star on one end lies nearby.
+    rod = MovableObject.new(name: 'rod', room_description: 'A three foot black rod with a rusty star on one end lies nearby.', long_description: "It's a three foot black rod with a rusty star on an end.")
+    rod.move(debris)
 
     Prompt.new(self).prompt
   end

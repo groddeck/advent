@@ -1,12 +1,13 @@
 class WorldObject
 
-  attr_accessor :name, :long_description, :short_description, :container
+  attr_accessor :name, :long_description, :short_description, :container, :room_description
   
   def initialize(opts={})
     @name = opts[:name]
     @long_description = opts[:long_description]
     @short_description = opts[:short_description]
     @container = opts[:container]
+    @room_description = opts[:room_description]
   end
 
   def remove
