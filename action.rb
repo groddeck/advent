@@ -57,6 +57,7 @@ class Action
             dir_obj.remove
             dir_obj.container = game.current_room
             game.current_room.contents << dir_obj
+            dir_obj.drop
           else
             puts "You don't have that"
           end
@@ -67,10 +68,17 @@ class Action
     },
     {
       'term' => 'take', 'proc' => Proc.new { |game, dir_obj|
+        if game.player.contents.include? dir_obj
+          puts "You already have that."
+          return
+        end
         begin
-          dir_obj.take
-          dir_obj.container = game.player
-          game.player.contents << dir_obj
+          dir_obj.take(success: 
+            lambda do
+              dir_obj.container = game.player
+              game.player.contents << dir_obj
+            end
+          )
         rescue Exception => e
           puts "You can't do that."
         end

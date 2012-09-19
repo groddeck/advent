@@ -12,7 +12,13 @@ class Prompt
     input = gets.strip
     print "\n"
     command = parse input
-    command.execute
+    begin
+      command.execute unless input.empty?
+    rescue Exception => e
+      if command.action.text == 'exit'
+        exit
+      end
+    end
     prompt
   end
 

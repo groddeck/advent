@@ -19,6 +19,7 @@ class Room < WorldObject
     to_show = contents.reject{|o| o.name == 'self'}
     room_descr_items = to_show.select{|o| o.room_description} #items that have a special room_description value, which is prose overriding 
                                                                #the simple behavior of just listing the name of an item during room description.
+    to_show.reject! {|x| room_descr_items.include?(x) }
     room_descr_items.each do |item|
       puts item.room_description
     end

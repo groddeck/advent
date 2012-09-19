@@ -6,12 +6,13 @@ require_relative 'movable_object'
 require_relative 'locked_door'
 
 class Game
-  attr_accessor :player, :world
+  attr_accessor :player, :world, :state
   
   def initialize(start_room=nil)
     @world = World.new
     @player = Player.new(container: @world, name: 'self')
     @world.contents << @player
+    @state = {}
   end
 
   def current_room

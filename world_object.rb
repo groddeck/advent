@@ -8,6 +8,7 @@ class WorldObject
     @short_description = opts[:short_description]
     @container = opts[:container]
     @room_description = opts[:room_description]
+    @game = opts[:game]
   end
 
   def remove
