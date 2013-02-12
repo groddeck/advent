@@ -20,7 +20,7 @@ ruby advent.rb
 
 ## To play:
 
-* Try typing common one or two word commands such as _look_, _look_ <object>, _take_ <object>
+* Try typing common one or two word commands such as _look_, _look_ _object_, _take_ _object_
 * And try directions: north, south, east, west, up, down.
 
 ## To create a game:
